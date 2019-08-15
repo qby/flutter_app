@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Flutter 状态管理</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+<style type="text/css">
+/*
+ Solarized Color Schemes originally by Ethan Schoonover
+ http://ethanschoonover.com/solarized
+
+ Ported for PrismJS by Hector Matos
+ Website: https://krakendev.io
+ Twitter Handle: https://twitter.com/allonsykraken)
+*/
+
+/*
+SOLARIZED HEX
+--------- -------
+base03    #002b36
+base02    #073642
+base01    #586e75
+base00    #657b83
+base0     #839496
+base1     #93a1a1
+base2     #eee8d5
+base3     #fdf6e3
+yellow    #b58900
+orange    #cb4b16
+red       #dc322f
+magenta   #d33682
+violet    #6c71c4
+blue      #268bd2
+cyan      #2aa198
+green     #859900
+*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #657b83; /* base00 */
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	background: #073642; /* base02 */
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	background: #073642; /* base02 */
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background-color: #fdf6e3; /* base3 */
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #93a1a1; /* base1 */
+}
+
+.token.punctuation {
+	color: #586e75; /* base01 */
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #268bd2; /* blue */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.url,
+.token.inserted {
+	color: #2aa198; /* cyan */
+}
+
+.token.entity {
+	color: #657b83; /* base00 */
+	background: #eee8d5; /* base2 */
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #859900; /* green */
+}
+
+.token.function {
+	color: #b58900; /* yellow */
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #cb4b16; /* orange */
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+</style>
+
+<style type="text/css">
+pre.line-numbers {
+	position: relative;
+	padding-left: 3.8em;
+	counter-reset: linenumber;
+}
+
+pre.line-numbers > code {
+	position: relative;
+}
+
+.line-numbers .line-numbers-rows {
+	position: absolute;
+	pointer-events: none;
+	top: 0;
+	font-size: 100%;
+	left: -3.8em;
+	width: 3em; /* works for line-numbers below 1000 lines */
+	letter-spacing: -1px;
+	border-right: 1px solid #999;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+}
+
+	.line-numbers-rows > span {
+		pointer-events: none;
+		display: block;
+		counter-increment: linenumber;
+	}
+
+		.line-numbers-rows > span:before {
+			content: counter(linenumber);
+			color: #999;
+			display: block;
+			padding-right: 0.8em;
+			text-align: right;
+		}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="toc_0">Flutter 状态管理</h1>
+
+<h2 id="toc_1">1. 为什么需要状态管理</h2>
+
+<h3 id="toc_2"><center>Start thinking declaratively</center></h3>
+
+<p><img src="https://flutter.dev/assets/development/data-and-backend/state-mgmt/ui-equals-function-of-state-54b01b000694caf9da439bd3f774ef22b00e92a62d3b2ade4f2e95c8555b8ca7.png" alt="Flutter 声明性地"></p>
+
+<h3 id="toc_3">1.1 StatefulWidget与StatelessWidget区别</h3>
+
+<p>StatelessWidget初始化之后就无法改变，如果想改变，那便需要重新创建，new另一个StatelessWidget进行替换。但StatelessWidget因为是静态的，他没有办法重新创建自己。所以StatefulWidget便提供了这样的机制，通过调用setState((){})标记自身为dirty状态，以等待下一次系统的重绘检查。</p>
+
+<h3 id="toc_4">1.2 StatefulWidget 动态化代价</h3>
+
+<p>我们改变状态的时候setState一下就可以了。 在我们一开始构建应用的时候，也许很简单，我们这时候可能并不需要状态管理。
+<center><img src="http://10.63.24.25:8080/flutter_state_managment2.png" height=400/></center></p>
+
+<p>但是随着功能的增加，你的应用程序将会有几十个甚至上百个状态。这个时候你的应用应该会是这样。
+<center><img src="http://10.63.24.25:8080/flutter_state_managment1.png" height=400/></center></p>
+
+<p><strong>在State类中的调用setState((){})更新视图，将会触发State.build！，也将间接的触发其每个子Widget的构造方法以及build方法。</strong>
+这意味这什么呢？ 如果你的根布局是一个StatefulWidget，那么每在根State中调用一次setState((){})，都将是一次整页所有Widget的rebuild</p>
+
+<h3 id="toc_5">1.3 如何选择StatefulWidget与StatelessWidget</h3>
+
+<ul>
+<li>优先使用 StatelessWidget</li>
+<li>含有大量子 Widget（如根布局、次根布局）慎用 StatefulWidget</li>
+<li>尽量在叶子节点使用 StatefulWidget</li>
+<li>将会调用到setState((){}) 的代码尽可能的和要更新的视图封装在一个尽可能小的模块里。</li>
+</ul>
+
+<h2 id="toc_6">2.如何进行状态管理</h2>
+
+<h3 id="toc_7">2.1 状态管理的几种方式</h3>
+
+<ul>
+<li>setState</li>
+<li>InheritedWidget &amp; Scoped Model</li>
+<li>StreamBuilder &amp; RxDart &amp; Bloc</li>
+<li>Provider</li>
+<li>Redux</li>
+<li>MobX</li>
+</ul>
+
+<h3 id="toc_8">2.2 状态管理的使用</h3>
+
+<h4 id="toc_9">2.2.1 InheritedWidget</h4>
+
+<p><code>InheritedWidget</code>是Flutter中非常重要的一个功能型<code>Widget</code>，它可以高效的将数据在Widget树中向下传递、共享。我们可以在<code>InheritedWidget</code>为根节点的树下任一Widget中调用。</p>
+
+<p>模板</p>
+
+<div><pre class="line-numbers"><code class="language-none">class MyInherited extends InheritedWidget {
+  final int data;
+
+  MyInherited({this.data, Widget child}) : super(child : child) {
+    print(&#39;MyInherited construct&#39;);
+  }
+
+  @override
+  bool updateShouldNotify(MyInherited oldWidget) {
+    bool result = oldWidget.data != this.data;
+    print(&#39;MyInherited updateShouldNotify result = $result&#39;);
+    return result;
+  }
+
+  static MyInherited of(BuildContext context) {
+    return context.inheritFromWidgetOfExactType(MyInherited);
+  }
+}</code></pre></div>
+
+<p>BuildContext.inheritFromWidgetOfExactType 来获取离其最近的 InheritedWidget 实例。这在一些需要在Widget树中共享数据的场景中非常方便，如Flutter中，正是通过
+InheritedWidget来共享应用主题(Theme)和Locale(当前语言环境)信息的。</p>
+
+<div><pre class="line-numbers"><code class="language-none">Localizations.of&lt;l10n&gt;(context, l10n).string_name 获取字符串
+MediaQuery.of(context).padding.top 获取状态栏高度</code></pre></div>
+
+<blockquote>
+<p>Demo组件层级示例</p>
+
+<p><img src='https://note.youdao.com/yws/api/personal/file/WEB0c9cefa2cc7a5b1908c47cab494588a5?method=download&shareKey=3d07341e3daa253f8569b7fafd833f3e' height=300/></p>
+</blockquote>
+
+<h4 id="toc_10">2.2.2 Scoped Model</h4>
+
+<p>Dart 的一个第三方库scoped_model。Scoped model使用了观察者模式，将数据模型放在父代，后代通过找到父代的model进行数据渲染，最后数据改变时将数据传回，父代再通知所有用到了该model的子代去更新状态。</p>
+
+<h4 id="toc_11">2.2.3 Stream &amp; RxDart &amp; Bloc</h4>
+
+<p><strong>1. 概念</strong>
+<img src="./rxdart_stream.png" alt=""></p>
+
+<ol>
+<li>我们可以简单把Stream想象为一个有两个端口的管道，只有其中的一个允许插入一些东西。 当您将某物插入管道时，它会在管道内流动并从另一端流出。</li>
+<li>所有类型以及任何类型。 从值，事件，对象，集合，映射，错误或甚至另一个流，任何类型的数据都可以由Stream传递 。</li>
+</ol>
+
+<p>在整个过程中，时间都是一个不确定因素，我们随时都可以向这个机器的入口放东西进去，放进去了以后机器进行处理，但是我们并不知道它多久处理完。所以出口是需要专门派人盯着的，等待机器流出东西来。整个过程都是以异步的眼光来看的。</p>
+
+<p><strong>2. StreamController</strong></p>
+
+<ol>
+<li><code>StreamController</code>，它是创建流的方式之一。</li>
+<li><code>StreamController</code>有一个入口，叫做<code>sink</code></li>
+<li><code>sink</code>可以使用<code>add</code>方法放东西进来，放进去以后就不再关心了。</li>
+<li><code>StreamController</code>有一个出口，叫做<code>stream</code></li>
+<li>多个物品被放进来了之后，它不会打乱顺序，而是先入先出。</li>
+</ol>
+
+<p>入口</p>
+
+<div><pre class="line-numbers"><code class="language-none">//任意类型的流
+StreamController controller = StreamController();
+controller.sink.add(123);
+controller.sink.add(&quot;xyz&quot;);
+controller.sink.add(Anything);
+
+//创建一条处理int类型的流
+StreamController&lt;int&gt; numController = StreamController();
+numController.sink.add(123);</code></pre></div>
+
+<p>出口</p>
+
+<div><pre class="line-numbers"><code class="language-none">StreamController controller = StreamController();
+
+//监听这个流的出口，当有data流出时，打印这个data
+StreamSubscription subscription =
+controller.stream.listen((data)=&gt;print(&quot;$data&quot;));
+
+controller.sink.add(123);</code></pre></div>
+
+<blockquote>
+<p>Is a Stream only a simple pipe?</p>
+
+<p>No, a Stream also allows to process the data that flows inside it before it goes out.</p>
+
+<p>StreamTransformer</p>
+</blockquote>
+
+<p>Stream不止是一个简单的pipe，他有很多操作符可以在数据输出之前对数据通过进行变换<code>(StreamTransformer)</code>，这里不做过多介绍</p>
+
+<p>知道了流的概念，那么它是如何结合<code>Flutter</code>进行状态管理的呢？ 答案就是<code>StreamBuilder</code></p>
+
+<p><strong>3. StreamBuilder</strong></p>
+
+<p>StreamBuilder其实是一个StatefulWidget，它通过监听Stream，发现有数据输出时，自动重建，调用builder方法。</p>
+
+<div><pre class="line-numbers"><code class="language-none">StreamBuilder&lt;T&gt;(
+    stream: ...需要监听的stream...
+    initialData: ...初始数据，否则为空...
+    builder: (BuildContext context, AsyncSnapshot&lt;T&gt; snapshot){
+        if (snapshot.hasData){
+            return ...基于snapshot.hasData返回的控件
+        }
+        return ...没有数据的时候返回的控件
+    },
+)
+</code></pre></div>
+
+<p><strong><em>StreamController需要在控件dispose()的时候被释放。</em></strong></p>
+
+<p><strong>4. RxDart</strong></p>
+
+<p><code>RxDart</code>扩展了原始的<code>Stream</code> 并提供了3种<code>StreamController</code>主要的变体</p>
+
+<ul>
+<li><strong><code>PublishSubject</code></strong></li>
+</ul>
+
+<p><img src='https://ask.qcloudimg.com/http-save/2806647/1p9uje4yts.png?imageView2/2/w/1620' height=300 /></p>
+
+<ul>
+<li><strong><code>BehaviorSubject</code></strong></li>
+<li><strong><code>ReplaySubject</code></strong></li>
+</ul>
+
+<p><strong>5. Bloc</strong></p>
+
+<p>BLoC(Business Logic Component)代表业务逻辑组件。它是一种模式(patten)或者说是一种架构(Architecture)</p>
+
+<p><img src="https://miro.medium.com/max/1122/1*WJMUsjhRqwj40NQ7ovWJYw.png" alt=""></p>
+
+<ul>
+<li>Widgets通过Sinks向BLoC发送事件，</li>
+<li>BLoC通过Stream通知Widgets，</li>
+<li><p>由BLoC实现的业务逻辑不是他们关注的问题。</p></li>
+</ul>
+
+<ol>
+<li>BloC实现了责任分离，将整个业务集中在单独的Bloc类中</li>
+<li>可测试性</li>
+<li>自由组织布局，页面独立于业务逻辑，只要监听<code>stream</code>即可</li>
+<li>减少<code>build</code>次数</li>
+</ol>
+
+<h4 id="toc_12">2.2.4 Provider</h4>
+
+<p>开源社区创建，Google 2019推荐</p>
+
+<h5 id="toc_13">1. <code>ChangeNotifier</code></h5>
+
+<div><pre class="line-numbers"><code class="language-none">class Counter with ChangeNotifier {
+  int _counter;
+
+  Counter(this._counter);
+
+  getCounter() =&gt; _counter;
+  setCounter(int counter) =&gt; _counter = counter;
+
+  void increment() {
+    _counter++;
+    notifyListeners();
+  }
+
+  void decrement() {
+    _counter--;
+    notifyListeners();
+  }
+}</code></pre></div>
+
+<blockquote>
+<p>notifyListeners(); <strong>通知更新UI</strong></p>
+</blockquote>
+
+<h5 id="toc_14">2. <code>ChangeNotifierProvider</code></h5>
+
+<div><pre class="line-numbers"><code class="language-none">ChangeNotifierProvider&lt;Counter&gt;(
+    builder: (_) =&gt; Counter(0),
+    child: HomePage(),
+)</code></pre></div>
+
+<h5 id="toc_15">3. 两种方式访问数据</h5>
+
+<ul>
+<li><code>Provider.of&lt;Object&gt;(context)</code></li>
+<li><code>Consumer Widget</code></li>
+</ul>
+
+<h2 id="toc_16">3.其他</h2>
+
+<ol>
+<li>代码模板 https://github.com/AweiLoveAndroid/Flutter-learning</li>
+</ol>
+
+
+
+<script type="text/javascript">
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(){var e=/\blang(?:uage)?-(\w+)\b/i,t=0,n=_self.Prism={util:{encode:function(e){return e instanceof a?new a(e.type,n.util.encode(e.content),e.alias):"Array"===n.util.type(e)?e.map(n.util.encode):e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++t}),e.__id},clone:function(e){var t=n.util.type(e);switch(t){case"Object":var a={};for(var r in e)e.hasOwnProperty(r)&&(a[r]=n.util.clone(e[r]));return a;case"Array":return e.map&&e.map(function(e){return n.util.clone(e)})}return e}},languages:{extend:function(e,t){var a=n.util.clone(n.languages[e]);for(var r in t)a[r]=t[r];return a},insertBefore:function(e,t,a,r){r=r||n.languages;var l=r[e];if(2==arguments.length){a=arguments[1];for(var i in a)a.hasOwnProperty(i)&&(l[i]=a[i]);return l}var o={};for(var s in l)if(l.hasOwnProperty(s)){if(s==t)for(var i in a)a.hasOwnProperty(i)&&(o[i]=a[i]);o[s]=l[s]}return n.languages.DFS(n.languages,function(t,n){n===r[e]&&t!=e&&(this[t]=o)}),r[e]=o},DFS:function(e,t,a,r){r=r||{};for(var l in e)e.hasOwnProperty(l)&&(t.call(e,l,e[l],a||l),"Object"!==n.util.type(e[l])||r[n.util.objId(e[l])]?"Array"!==n.util.type(e[l])||r[n.util.objId(e[l])]||(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,l,r)):(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,null,r)))}},plugins:{},highlightAll:function(e,t){var a={callback:t,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};n.hooks.run("before-highlightall",a);for(var r,l=a.elements||document.querySelectorAll(a.selector),i=0;r=l[i++];)n.highlightElement(r,e===!0,a.callback)},highlightElement:function(t,a,r){for(var l,i,o=t;o&&!e.test(o.className);)o=o.parentNode;o&&(l=(o.className.match(e)||[,""])[1],i=n.languages[l]),t.className=t.className.replace(e,"").replace(/\s+/g," ")+" language-"+l,o=t.parentNode,/pre/i.test(o.nodeName)&&(o.className=o.className.replace(e,"").replace(/\s+/g," ")+" language-"+l);var s=t.textContent,u={element:t,language:l,grammar:i,code:s};if(!s||!i)return n.hooks.run("complete",u),void 0;if(n.hooks.run("before-highlight",u),a&&_self.Worker){var c=new Worker(n.filename);c.onmessage=function(e){u.highlightedCode=e.data,n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(u.element),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},c.postMessage(JSON.stringify({language:u.language,code:u.code,immediateClose:!0}))}else u.highlightedCode=n.highlight(u.code,u.grammar,u.language),n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(t),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},highlight:function(e,t,r){var l=n.tokenize(e,t);return a.stringify(n.util.encode(l),r)},tokenize:function(e,t){var a=n.Token,r=[e],l=t.rest;if(l){for(var i in l)t[i]=l[i];delete t.rest}e:for(var i in t)if(t.hasOwnProperty(i)&&t[i]){var o=t[i];o="Array"===n.util.type(o)?o:[o];for(var s=0;s<o.length;++s){var u=o[s],c=u.inside,g=!!u.lookbehind,h=!!u.greedy,f=0,d=u.alias;u=u.pattern||u;for(var p=0;p<r.length;p++){var m=r[p];if(r.length>e.length)break e;if(!(m instanceof a)){u.lastIndex=0;var y=u.exec(m),v=1;if(!y&&h&&p!=r.length-1){var b=r[p+1].matchedStr||r[p+1],k=m+b;if(p<r.length-2&&(k+=r[p+2].matchedStr||r[p+2]),u.lastIndex=0,y=u.exec(k),!y)continue;var w=y.index+(g?y[1].length:0);if(w>=m.length)continue;var _=y.index+y[0].length,P=m.length+b.length;if(v=3,P>=_){if(r[p+1].greedy)continue;v=2,k=k.slice(0,P)}m=k}if(y){g&&(f=y[1].length);var w=y.index+f,y=y[0].slice(f),_=w+y.length,S=m.slice(0,w),O=m.slice(_),j=[p,v];S&&j.push(S);var A=new a(i,c?n.tokenize(y,c):y,d,y,h);j.push(A),O&&j.push(O),Array.prototype.splice.apply(r,j)}}}}}return r},hooks:{all:{},add:function(e,t){var a=n.hooks.all;a[e]=a[e]||[],a[e].push(t)},run:function(e,t){var a=n.hooks.all[e];if(a&&a.length)for(var r,l=0;r=a[l++];)r(t)}}},a=n.Token=function(e,t,n,a,r){this.type=e,this.content=t,this.alias=n,this.matchedStr=a||null,this.greedy=!!r};if(a.stringify=function(e,t,r){if("string"==typeof e)return e;if("Array"===n.util.type(e))return e.map(function(n){return a.stringify(n,t,e)}).join("");var l={type:e.type,content:a.stringify(e.content,t,r),tag:"span",classes:["token",e.type],attributes:{},language:t,parent:r};if("comment"==l.type&&(l.attributes.spellcheck="true"),e.alias){var i="Array"===n.util.type(e.alias)?e.alias:[e.alias];Array.prototype.push.apply(l.classes,i)}n.hooks.run("wrap",l);var o="";for(var s in l.attributes)o+=(o?" ":"")+s+'="'+(l.attributes[s]||"")+'"';return"<"+l.tag+' class="'+l.classes.join(" ")+'" '+o+">"+l.content+"</"+l.tag+">"},!_self.document)return _self.addEventListener?(_self.addEventListener("message",function(e){var t=JSON.parse(e.data),a=t.language,r=t.code,l=t.immediateClose;_self.postMessage(n.highlight(r,n.languages[a],a)),l&&_self.close()},!1),_self.Prism):_self.Prism;var r=document.currentScript||[].slice.call(document.getElementsByTagName("script")).pop();return r&&(n.filename=r.src,document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",n.highlightAll)),_self.Prism}();"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism);
+</script>
+
+<script type="text/javascript">
+!function(){"undefined"!=typeof self&&self.Prism&&self.document&&Prism.hooks.add("complete",function(e){if(e.code){var t=e.element.parentNode,s=/\s*\bline-numbers\b\s*/;if(t&&/pre/i.test(t.nodeName)&&(s.test(t.className)||s.test(e.element.className))&&!e.element.querySelector(".line-numbers-rows")){s.test(e.element.className)&&(e.element.className=e.element.className.replace(s,"")),s.test(t.className)||(t.className+=" line-numbers");var n,a=e.code.match(/\n(?!$)/g),l=a?a.length+1:1,m=new Array(l+1);m=m.join("<span></span>"),n=document.createElement("span"),n.className="line-numbers-rows",n.innerHTML=m,t.hasAttribute("data-start")&&(t.style.counterReset="linenumber "+(parseInt(t.getAttribute("data-start"),10)-1)),e.element.appendChild(n)}}})}();
+</script>
+
+
+</body>
+
+</html>

@@ -2,18 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 void main() {
-  runApp(Scaffold(
-    body: MyWidget(),
+  runApp(MaterialApp(
+    home: MyWidget(),
   ));
 }
 
+// ignore: must_be_immutable
 class MyWidget extends StatefulWidget {
   int _counter = 0;
-
-  // ignore: close_sinks
-  final StreamController<int> controller = StreamController();
 
   @override
   State<StatefulWidget> createState() {
@@ -22,17 +21,31 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyState extends State<MyWidget> {
+  final PublishSubject<int> controller = PublishSubject<int>();
+
+  @override
+  void dispose() {
+    controller.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: StreamBuilder(
-        stream: widget.controller.stream,
-        initialData: widget._counter,
-        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-          return Text("${snapshot.data}");
-        },
+    return Scaffold(
+      body: Center(
+        child: StreamBuilder(
+          stream: controller.stream,
+          initialData: widget._counter,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            return Text("${snapshot.data}");
+          },
+        ),
       ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            controller.sink.add(++widget._counter);
+          }),
     );
   }
 }
-

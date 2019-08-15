@@ -8,26 +8,6 @@ void main() {
   runApp(MyApp());
 }
 
-class IncreaseModel {
-  int count = 0;
-}
-
-class IncreaseInheritedWidget extends InheritedWidget {
-  final IncreaseModel model;
-
-  IncreaseInheritedWidget({Key key, Widget child, @required this.model})
-      : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) {
-    return false;
-  }
-
-  static IncreaseInheritedWidget of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(IncreaseInheritedWidget);
-  }
-}
-
 class MyContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -75,13 +55,11 @@ class MyContainer extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    debugPrint("get inherited widget = ${IncreaseInheritedWidget.of(context)}");
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32),
       child: Row(
         children: [
           Expanded(
-            /*1*/
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -149,17 +127,14 @@ class MyContainer extends StatelessWidget {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var model = IncreaseModel();
     return MaterialApp(
       title: 'Flutter layout demo',
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('Flutter layout demo'),
-          ),
-          body: IncreaseInheritedWidget(
-            child: MyContainer(),
-            model: model,
-          )),
+        appBar: AppBar(
+          title: Text('Flutter layout demo'),
+        ),
+        body: MyContainer(),
+      ),
     );
   }
 }
